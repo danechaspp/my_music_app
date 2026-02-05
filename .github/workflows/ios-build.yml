@@ -5,20 +5,28 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          architecture: x64
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - name: Create IPA
+          flutter-version: '3.19.0' # Фиксируем версию для стабильности
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Create IPA Structure
         run: |
           mkdir -p Payload
           mv build/ios/iphoneos/Runner.app Payload
           zip -r app.ipa Payload
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+
+      - name: Upload Result
+        uses: actions/upload-artifact@v4 # ТУТ МЫ ИСПРАВИЛИ НА V4
         with:
-          name: music-app-ipa
+          name: my-music-app
           path: app.ipa
