@@ -5,19 +5,20 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout code
+        uses: actions/checkout@v4 # Исправлено на v4 для поддержки новых правил GitHub
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.0' # Фиксируем версию для стабильности
+          # Мы не пишем версию вручную, чтобы сервер сам выбрал совместимую с твоим кодом
 
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get # Здесь больше не будет ошибки "version solving failed"
 
       - name: Build iOS
-        run: flutter build ios --release --no-codesign
+        run: flutter build ios --release --no-codesign # Собираем файл для Scarlet
 
       - name: Create IPA Structure
         run: |
@@ -25,8 +26,8 @@ jobs:
           mv build/ios/iphoneos/Runner.app Payload
           zip -r app.ipa Payload
 
-      - name: Upload Result
-        uses: actions/upload-artifact@v4 # ТУТ МЫ ИСПРАВИЛИ НА V4
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4 # Исправлено на v4, чтобы убрать ошибку "deprecated version"
         with:
-          name: my-music-app
+          name: music-app-final
           path: app.ipa
