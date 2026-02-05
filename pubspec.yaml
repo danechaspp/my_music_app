@@ -1,18 +1,20 @@
-name: my_music_app
-description: A new Flutter project.
+name: untitled1
+description: "A new Flutter project."
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.10.8
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+
+  cupertino_icons: ^1.0.8
+  # Я добавила эту строку для работы с музыкой и текстами:
   http: ^1.1.0
   audioplayers: ^5.2.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
